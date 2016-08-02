@@ -44,13 +44,13 @@ class Condomino:
       
 class Condominio:
 
-   def __init__(self, nombre, direccion, lstcondominos, lstcuentas, administrador, correoadmin):
+   def __init__(self, nombre, direccion, lstcondominos, lstcuentas, administrador, correo_admin):
       self.nombre = nombre
       self.direccion = direccion
       self.condominos = lstcondominos
       self.cuentas = lstcuentas
       self.administrador = administrador
-      self.correoadmin = correoadmin
+      self.correo_admin = correo_admin
 
    def toDbCollection(self):
       return {
@@ -59,7 +59,7 @@ class Condominio:
       	   "condominos": self.condominos,
       	   "cuentas": self.cuentas,
       	   "administrador": self.administrador,
-      	   "correo": self.correoadmin
+      	   "correo": self.correo_admin
       }
 
    def __str__(self):

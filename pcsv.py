@@ -1,25 +1,32 @@
 import csv
+from utils import read_file_to_list_dict
 
-def csv_reader_to_list_dict(datos):
-   llave = []
-   lstdata = []
-   for r in datos:
-      if datos.line_num == 1:
-         llave = r
-      else:
-         dic = {}
-         for k in range(0,len(r)):
-            valor = r[k].strip()
-            dic.update({llave[k].strip():valor})
-         lstdata.append(dic)
-   return lstdata
+class Condominio:
 
-fDatos = open("/storage/emulated/0/com.hipipal.qpyplus/scripts/condominios.csv")
-datos = csv.reader(fDatos)
- 
-lstcondominios = []
+   def __init__(self, dictdata, lstcondominos, lstcuentas):
+      condominos = { "condominos" : lstcondominos }
+      cuentas = { "cuentas" : lstcuentas }
+      self.dictdata = {}
+      self.dictdata = dictdata      
+      self.dictdata.update(condominos)
+      self.dictdata.update(cuentas)
 
-print csv_reader_to_list_dict(datos)
+   def toDb(self):
+      return self.dictdata
+      
+tab_path = '/storage/emulated/0/Git/exemplos_python/'
+cel_path = '/storage/emulated/0/Android/'
+
+lstcondominos = read_file_to_list_dict(tab_path + "condominos.csv")
+lstcondominios = read_file_to_list_dict(tab_path + "condominios.csv")
+lstcuentas = read_file_to_list_dict(tab_path + "cuentas.csv")
+
+for con in lstcondominios:
+    e = Condominio(con,lstcondominos,lstcuentas)
+    # hacer collection en mongo Db
+    print e.toDb()
+    
+   
 
 
       
