@@ -1,3 +1,5 @@
-depto,poseedor,referencia,ultimo_deposito,adeudo
-A303,Daniel Cruz/Victoria Gonzalez,33,1/08/2016,5000.0
-A301,Pedro/Gloria,31,15/07/2016,0
+condominio,depto,poseedor,referencia,ultimo_deposito,adeudo
+OLIMPO,A303,Daniel Cruz/Victoria Gonzalez,33,1/08/2016,5000.0
+SADICARNOT,C101,Juan Penas,0,1/08/2016,300
+OLIMPO,A301,Pedro/Gloria,31,15/07/2016,0
+XXX,308,Jose Penas,0,1/08/2016,5000

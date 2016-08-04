@@ -1,3 +1,3 @@
-banco,cuenta,clabe,titular,saldo,fechasaldo,estado
-Bancomer,1234567890,012180001234567890,Victoria Gonzalez,100000.0,31/07/2016,activa
-Bancomer,9876543210,011180009876543210,Juan Perez,50000,cancelada
+condominio,banco,cuenta,clabe,titular,saldo,fechasaldo,estado
+OLIMPO,Bancomer,1234567890,012180001234567890,Victoria Gonzalez,100000.0,31/07/2016,activa
+OLIMPO,Bancomer,9876543210,011180009876543210,Juan Perez,50000,cancelada
