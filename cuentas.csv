@@ -1,3 +1,4 @@
 condominio,banco,cuenta,clabe,titular,saldo,fechasaldo,estado
 OLIMPO,Bancomer,1234567890,012180001234567890,Victoria Gonzalez,100000.0,31/07/2016,activa
-OLIMPO,Bancomer,9876543210,011180009876543210,Juan Perez,50000,cancelada
+CARRILLO PUERTO 362,Hsbc,2468101214,021180024681012140,Lilia Lopez,20000,31/07/2016,activa
+OLIMPO,Bancomer,9876543210,011180009876543210,Juan Perez,50000,1/8/2016,cancelada

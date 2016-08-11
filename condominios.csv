@@ -1,3 +1,4 @@
-nombre,domicilio,administrador,correo_administrador
-OLIMPO,Carrillo Puerto No 34 Col Anahuac en Miguel Hidalgo Cd de Mexico,Victoria Gonzalez,v_gonzalezsagit@hotmail.com
-SADICARNOT,Sadi Carnot No 10 Col San Rafael en Cuauhtemoc Cd de Mexico,Victoria Gonzalez,v_gonzalezsagit@hotmail.com
+condominio,domicilio,administrador
+OLIMPO,Carrillo Puerto No 34 Col Anahuac en Miguel Hidalgo Cd de Mexico,Victoria Gonzalez
+SADICARNOT,Sadi Carnot No 10 Col San Rafael en Cuauhtemoc Cd de Mexico,Victoria Gonzalez
+CARRILLO PUERTO 362,Felipe Carrillo Puerto 362 Col Pensil San Juanico en Miguel Hidalgo Cd de Mexico,Nicolas San Juan
