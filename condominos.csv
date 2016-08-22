@@ -1,6 +1,6 @@
-condominio,depto,poseedor,referencia,ultimo_deposito,adeudo
-OLIMPO,A303,Daniel Cruz/Victoria Gonzalez,33,1/08/2016,5000.0
-SADICARNOT,C101,Juan Penas,0,1/08/2016,300
-OLIMPO,A301,Pedro/Gloria,31,15/07/2016,0
-CARRILLO PUERTO 362,308,Jose Penas,0,1/08/2016,5000
-CARRILLO PUERTO 362,101,Daniel Cruz,51,1/08/2016,350
+condominio,depto,poseedor,referencia,mail,fechaadeudo,adeudo
+OLIMPO,A303,Daniel Cruz/Victoria Gonzalez,33,a303@gmail.com,5000.0,1/08/2016
+SADICARNOT,C101,Juan Penas,0,c101@gmail.com,300,1/08/2016
+OLIMPO,A301,Pedro/Gloria,31,a301@gmail.com,0,15/07/2016
+CARRILLO PUERTO 362,308,Jose Penas,0,,5000,1/08/2016
+CARRILLO PUERTO 362,101,Daniel Cruz,51,,350,1/08/2016

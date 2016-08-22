@@ -1,4 +1,4 @@
-condominio,domicilio,administrador
-OLIMPO,Carrillo Puerto No 34 Col Anahuac en Miguel Hidalgo Cd de Mexico,Victoria Gonzalez
-SADICARNOT,Sadi Carnot No 10 Col San Rafael en Cuauhtemoc Cd de Mexico,Victoria Gonzalez
-CARRILLO PUERTO 362,Felipe Carrillo Puerto 362 Col Pensil San Juanico en Miguel Hidalgo Cd de Mexico,Nicolas San Juan
+nombre,domicilio,regimen,administrador,condominos,cuentas,cuotas
+OLIMPO,Carrillo Puerto No 34 Col Anahuac en Miguel Hidalgo Cd de Mexico,condominal,vgonzalez,,,
+SADICARNOT,Sadi Carnot No 10 Col San Rafael en Cuauhtemoc Cd de Mexico,condominal,vgonzalez,,,
+CARRILLO PUERTO 362,Felipe Carrillo Puerto 362 Col Pensil San Juanico en Miguel Hidalgo Cd de Mexico,condominal,danielcruzmx,,,
