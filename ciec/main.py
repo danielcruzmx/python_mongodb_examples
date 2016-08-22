@@ -32,18 +32,15 @@ def reader_to_list_dict(reader, key, value):
                lstdata.append(dic)
    return lstdata
 
-class Administrador:
+class Administrador():
 
-   '''def __init__(self, nombre, alias, mail, telefono, condominios):
-      self.nombre=nombre
-      self.alias=alias
-      self.mail=mail
-      self.telefono=telefono
-      self.condominios=condominios
-   '''   
-
-   def __init__(self):
-      pass
+   def __init__(self, dicc):
+      if dicc != None: 
+         self.nombre=dicc['nombre']
+         self.alias=dicc['alias']
+         self.mail=dicc['mail']
+         self.telefono=dicc['telefono']
+         self.condominios=dicc['condominios']
 
    def fromdict(self, datadict):
       self.nombre=datadict['nombre']
@@ -104,13 +101,25 @@ class Condominio:
 
 class Condomino:      
 
-   def __init__(self , depto, poseedor, referencia, mail, adeudo, fechaadeudo):
+   ''' def __init__(self , depto, poseedor, referencia, mail, adeudo, fechaadeudo):
       self.depto=depto
       self.poseedor=poseedor
       self.referencia=referencia
       self.mail=mail
       self.adeudo=adeudo
       self.fechaadeudo=fechaadeudo
+   '''
+
+   def __init__(self):
+      pass   
+
+   def fromdict(self, datadict):
+      self.depto=datadict['depto']
+      self.poseedor=datadict['poseedor']
+      self.referencia=datadict['referencia']
+      self.mail=datadict['mail']
+      self.adeudo=datadict['adeudo']
+      self.fechaadeudo=datadict['fechaadeudo']
 
    def toDbCol(self):
       return {
@@ -259,8 +268,9 @@ rdatos = read_file_to_reader(path + "administradores.csv")
 ladmins = reader_to_list_dict(rdatos, None, None)
 
 for a in ladmins:
-   objadmin=Administrador()
-   objadmin.fromdict(a)
+   #print a
+   objadmin=Administrador(a)
+   #objadmin.fromdict(a)
    print "Administrador -> " + objadmin.alias
    cdatos=read_file_to_reader(path + "condominios.csv")
    lcond = reader_to_list_dict(cdatos, 'administrador', objadmin.alias)
