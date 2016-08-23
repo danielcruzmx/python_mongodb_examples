@@ -4,6 +4,7 @@
 
 import csv
 
+# lee un archivo .csv y devuelve un reader
 def read_file_to_reader(file):
    try:
       fdat = open(file)
@@ -13,7 +14,7 @@ def read_file_to_reader(file):
       print "Error: No se pudo abrir el archivo" + file
       return None   
 
-# devuelve una lista de diccionarios
+# devuelve una lista de diccionarios apartir de un reader
 def reader_to_list_dict(reader, key, value):
    llave = []
    lstdata = []
@@ -34,20 +35,13 @@ def reader_to_list_dict(reader, key, value):
 
 class Administrador():
 
-   def __init__(self, dicc):
-      if dicc != None: 
-         self.nombre=dicc['nombre']
-         self.alias=dicc['alias']
-         self.mail=dicc['mail']
-         self.telefono=dicc['telefono']
-         self.condominios=dicc['condominios']
-
-   def fromdict(self, datadict):
-      self.nombre=datadict['nombre']
-      self.alias=datadict['alias']
-      self.mail=datadict['mail']
-      self.telefono=datadict['telefono']
-      self.condominios=datadict['condominios']
+   def __init__(self, datadict):
+      if datadict != None: 
+         self.nombre=datadict['nombre']
+         self.alias=datadict['alias']
+         self.mail=datadict['mail']
+         self.telefono=datadict['telefono']
+         self.condominios=datadict['condominios']
 
    def setcondominios(self, condominios):
       self.condominios=condominios
@@ -66,25 +60,23 @@ class Administrador():
 
 class Condominio:
    
-   '''def __init__(self , nombre, domicilio, regimen, condominos, cuentas, cuotas):
-      self.nombre=nombre
-      self.domicilio=domicilio
-      self.regimen=regimen
+   def __init__(self, datadict):
+      if datadict != None:
+         self.nombre=datadict['nombre']
+         self.domicilio=datadict['domicilio']
+         self.regimen=datadict['regimen']
+         self.condominos=datadict['condominos']
+         self.cuentas=datadict['cuentas']
+         self.cuotas=datadict['cuotas']
+
+   def setcondominos(self, condominos):
       self.condominos=condominos
+
+   def setcuentas(self, cuentas):
       self.cuentas=cuentas
+
+   def setcuotas(self, cuotas):
       self.cuotas=cuotas
-   '''   
-
-   def __init__(self):
-      pass
-
-   def fromdict(self, datadict):
-      self.nombre=datadict['nombre']
-      self.domicilio=datadict['domicilio']
-      self.regimen=datadict['regimen']
-      self.condominos=datadict['condominos']
-      self.cuentas=datadict['cuentas']
-      self.cuotas=datadict['cuotas']
 
    def toDbCol(self):
       return {
@@ -101,25 +93,14 @@ class Condominio:
 
 class Condomino:      
 
-   ''' def __init__(self , depto, poseedor, referencia, mail, adeudo, fechaadeudo):
-      self.depto=depto
-      self.poseedor=poseedor
-      self.referencia=referencia
-      self.mail=mail
-      self.adeudo=adeudo
-      self.fechaadeudo=fechaadeudo
-   '''
-
-   def __init__(self):
-      pass   
-
-   def fromdict(self, datadict):
-      self.depto=datadict['depto']
-      self.poseedor=datadict['poseedor']
-      self.referencia=datadict['referencia']
-      self.mail=datadict['mail']
-      self.adeudo=datadict['adeudo']
-      self.fechaadeudo=datadict['fechaadeudo']
+   def __init__(self, datadict):
+      if datadict != None:
+         self.depto=datadict['depto']
+         self.poseedor=datadict['poseedor']
+         self.referencia=datadict['referencia']
+         self.mail=datadict['mail']
+         self.adeudo=datadict['adeudo']
+         self.fechaadeudo=datadict['fechaadeudo']
 
    def toDbCol(self):
       return {
@@ -136,14 +117,15 @@ class Condomino:
      
 class Cuenta:
 
-   def __init__(self ,banco ,cuenta ,clabe ,titular ,saldo , fechasaldo, situacioncuenta):
-      self.banco=banco
-      self.cuenta=cuenta
-      self.clabe=clabe
-      self.titular=titular
-      self.saldo=saldo
-      self.fechasaldo=fechasaldo
-      self.situacioncuenta=situacioncuenta
+   def __init__(self, datadict):
+      if datadict != None:
+         self.banco=datadict['banco']
+         self.cuenta=datadict['cuenta']
+         self.clabe=datadict['clabe']
+         self.titular=datadict['titular']
+         self.saldo=datadict['saldo']
+         self.fechasaldo=datadict['fechasaldo']
+         self.situacioncuenta=datadict['situacioncuenta']
 
    def toDbCol(self):
       return {
@@ -158,13 +140,14 @@ class Cuenta:
 
 class Cuota:
 
-   def __init__(self, num, tipocuota, fechainicio, fechatermino, monto, montopena):
-      self.num=num
-      self.tipo=tipocuota
-      self.fechainicio=fechainicio
-      self.fechatermino=fechatermino
-      self.monto=monto
-      self.montopena=montopena
+   def __init__(self, datadict):
+      if datadict != None:
+         self.num=datadict['num']
+         self.tipo=datadict['tipocuota']
+         self.fechainicio=datadict['fechainicio']
+         self.fechatermino=datadict['fechatermino']
+         self.monto=datadict['monto']
+         self.montopena=datadict['montopena']
 
    def toDbCol(self):
       return {
@@ -178,12 +161,13 @@ class Cuota:
 
 class Catalogo:
 
-   def __init__(self, banco, tipomovimiento, tiposervicio, situacioncuenta, tipocuota):
-      self.banco=banco
-      sell.tipomovimiento=tipomovimiento
-      self.tiposervicio=tiposervicio
-      self.situacioncuenta=situacioncuenta
-      self.tipocuota=tipocuota
+   def __init__(self, datadict):
+      if datadict != None:
+         self.banco=datadict['banco']
+         sell.tipomovimiento=datadict['tipomovimiento']
+         self.tiposervicio=datadict['tiposervicio']
+         self.situacioncuenta=datadict['situacioncuenta']
+         self.tipocuota=datadict['tipocuota']
 
    def toDbCol(self):
       return {
@@ -196,17 +180,18 @@ class Catalogo:
 
 class Movimiento:
 
-   def __init__(self, num, clabe, fecha, tipomovimiento, descripcion, retiro, deposito, condomino, tiposervicio, recibos):
-      self.num=num
-      self.clabe=self.clabe
-      self.fecha=fecha
-      self.tipomovimiento=tipomovimiento
-      self.descripcion=descripcion
-      self.retiro=retiro
-      self.deposito=deposito
-      self.condomino=condomino
-      self.tiposervicio=tiposervicio
-      self.recibos=recibos
+   def __init__(self, datadict):
+      if datadict != None:
+         self.num=datadict['num']
+         self.clabe=datadict['clabe']
+         self.fecha=datadict['fecha']
+         self.tipomovimiento=datadict['tipomovimiento']
+         self.descripcion=datadict['descripcion']
+         self.retiro=datadict['retiro']
+         self.deposito=datadict['deposito']
+         self.condomino=datadict['condomino']
+         self.tiposervicio=datadict['tiposervicio']
+         self.recibos=datadict['recibos']
 
    def toDbCol(self):
       return {
@@ -224,11 +209,12 @@ class Movimiento:
 
 class Recibo:
 
-   def __init__(self, folio, fechaexpedicion, notas, concepto):
-      self.folio=folio
-      self.fechaexpedicion=fechaexpedicion
-      self.notas=notas
-      self.concepto=concepto
+   def __init__(self, datadict):
+      if datadict != None:
+         self.folio=datadict['folio']  
+         self.fechaexpedicion=datadict['fechaexpedicion']
+         self.notas=datadict['notas']
+         self.concepto=datadict['concepto']  
 
    def toDbCol(self):
       return {
@@ -240,11 +226,11 @@ class Recibo:
 
 class Proveedor:
 
-   def __init__(self, nombre, tiposervicio, telefonos, domicilio):
-      self.nombre=nombre
-      self.tiposervicio=tiposervicio
-      self.telefonos=telefonos
-      self.domicilio=domicilio
+   def __init__(self, datadict):
+      self.nombre=datadict['nombre']
+      self.tiposervicio=datadict['tiposervicio']
+      self.telefonos=datadict['telefonos']
+      self.domicilio=datadict['domicilio']
 
    def toDbCol(self):
       return {
