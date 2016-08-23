@@ -28,3 +28,47 @@ def reader_to_list_dict(reader, key, value):
             if dic[key] == value:   # Si hay filtro agrega renglon que cumple
                lstdata.append(dic)
    return lstdata
+
+def ispt(monto):
+   res = 0.0
+   rango = Ispt.query.filter_by(\
+   	        tipo='ispt', \
+   	        fin=fecfinal).\
+   	        order_by(Ispt.id).\
+   	        all()
+   if rango: 
+      for r in rango:
+         if r.linferior <= monto and r.superior >= monto:
+            res = (monto-r.linferior)*r.excedente/100.0+r.cuota
+            return res
+   else:
+      return res
+
+def bruto(monto):
+   res =0.0
+   rango = Ispt.query.filter_by(\
+   	        tipo='bruto', \
+   	        fin = fecfinal).\
+   	        order_by(Ispt.id).\
+   	        all()
+   if rango:
+      for r in rango:
+         if r.linferior <= monto and r.superior >= monto:
+            res = (monto-r.cuota)/r.bruto
+            return res
+   else:
+      return res
+
+def ibruto(base, monto):
+   isr = ispt(base)
+   isrs = bruto(base-isr+monto)
+   return isrs-base-monto
+
+def is_number(s):
+  n=0
+  try:
+     n=float(s)
+     return n
+  except ValueError:
+     return n
+

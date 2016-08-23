@@ -1,38 +1,40 @@
-from flask_sqlalchemy import SQLAlchemy
-#from flask_admin.contrib.sqla import ModelView
-#from flask_admin import Admin
-#from config import app
+from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy.ext.declarative import declarative_base
 #
-db = SQLAlchemy(app)
+Base = declarative_base()
 #
 #   Tabla de impuesto
 #
-class Ispt(db.Model): 
-   id = db.Column(db.Integer, primary_key=True) 
-   fin = db.Column('fecha_fin',db.String(10)) 
-   ini = db.Column('fecha_ini',db.String(10)) 
-   tipo = db.Column('tipo',db.String(10)) 
-   linferior = db.Column('linferior',db.Float) 
-   superior = db.Column('superior',db.Float) 
-   bruto = db.Column('bruto',db.Float) 
-   cuota = db.Column('cuota',db.Float) 
-   excedente = db.Column('excedente',db.Float) 
-   subsidio = db.Column('subsidio',db.Float) 
+class Ispt(Base):
+  __tablename__ = 'ispt'
+  
+  id = Column(Integer, primary_key=True) 
+  fecha_fin = Column(String(10))
+  fecha_ini = Column(String(10)) 
+  tipo = Column(String(10)) 
+  linferior = Column(Float) 
+  superior = Column(Float) 
+  bruto = Column(Float) 
+  cuota = Column(Float) 
+  excedente = Column(Float) 
+  subsidio = Column(Float) 
 #
 #    Tabla de reglas de calculo
 #
-class Reglasc(db.Model):
-   id = db.Column(db.Integer, primary_key=True) 
-   calculo = db.Column('calculo',db.String(20)) 
-   tipo = db.Column('tipo',db.String(1)) 
-   concepto = db.Column('concepto',db.String(2))
-   var = db.Column('var',db.String(20))
-   orden = db.Column('orden',db.Integer)
-   val = db.Column('val',db.Float) 
-   desc = db.Column('desc',db.String(30)) 
-   formula = db.Column('formula',db.String(50)) 
-   jerarquia = db.Column('jerarquia',db.String(25))
-   nivel = db.Column('nivel',db.String(25))
-   nombramiento = db.Column('nombramiento',db.String(25))
-   variable = db.Column('variable',db.String(1))
+class Reglas(Base):
+   __tablename__ = 'reglasc'
+
+   id = Column(Integer, primary_key=True) 
+   calculo = Column(String(20)) 
+   tipo = Column(String(1)) 
+   concepto = Column(String(2))
+   var = Column(String(20))
+   orden = Column(Integer)
+   val = Column(Float) 
+   desc = Column(String(30)) 
+   formula = Column(String(50)) 
+   jerarquia = Column(String(25))
+   nivel = Column(String(25))
+   nombramiento = Column(String(25))
+   variable = Column(String(1))
 
