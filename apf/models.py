@@ -22,7 +22,7 @@ class Ispt(Base):
 #    Tabla de reglas de calculo
 #
 class Reglas(Base):
-   __tablename__ = 'reglas'
+   __tablename__ = 'reglasc'
 
    id = Column(Integer, primary_key=True) 
    calculo = Column(String(20)) 
