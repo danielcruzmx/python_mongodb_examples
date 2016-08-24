@@ -1,30 +1,42 @@
 from pago import Pago, Pension, ConceptoPago, ConceptoPagado
 from utils import read_file_to_reader, reader_to_list_dict
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from models import Ispt
-
-path='C:\\proyectos_open_shift_daniel\\python_mongodb_examples\\'
-pathdb='sqlite:////storage/emulated/0/com.hipipal.qpyplus/projects3/NApf/nominaAPF.db3'
-pathdbpc='sqlite:///D:\\SITES_OPEN\\CODIGO_GITHUB\\python_mongodb_examples\\apf\\nominaAPF.db3'
+from utils import ispt
 
 # abrir archivo de empleados
 # abrir archivo de conceptos y pensiones
 # actualizar conceptos y pensiones por empleado
-# hacer lista de pagos
-# hacer cpnexion con Alchemy para las tablas ispt y reglas
+# hacer lista de
 
 if __name__ == '__main__':
-  engine = create_engine(pathdbpc)
-  #connection = engine.connect()
-  Session = sessionmaker(bind=engine)
-  #result = connection.execute("select * from ispt")
-  #for row in result:
-  #  print row
-  #connection.close()
-  sesion = Session()
-  res = sesion.query(Ispt).filter_by(tipo='ispt').all()
-  for r in res:
-    print r.fecha_ini
-	
+  #grav = 10000.0
+  #print ispt(grav)
+  p = {
+  'rfc':'CUCD6308017Y1',
+  'plaza':902,
+  'unidad':'711',
+  'grupo':'ESTRUCTURA',
+  'nivel':'N33',
+  'nombramiento':'CONFIANZA',
+  'jerarquia': 'MANDO MEDIO',
+  'sueldo': 8000.0,
+  'compensacion': 39000.0,
+  'sobresueldo': 0.0,
+  'ultimomovimiento': '502',
+  'qnaproceso':201617,
+  'fechaultimomovimiento':'01/01/2011',
+  'conceptospago':[],
+  'conceptospagados':[],
+  'pensiones':[]
+  }
+  
+  cptos = [
+     {},
+     {},
+     {}
+  ]
+
+  objp = Pago(p)
+  print objp.rfc
+  
+  
 

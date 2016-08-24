@@ -2,23 +2,23 @@
 class Pago(object):
 
 	def __init__(self, datadict):
-		if datadict != None: 
-			self.rfc=datadict['rfc']
-        	self.plaza=datadict['plaza']
-        	self.unidad=datadict['unidad']
-        	self.grupo=datadict['grupo']
-        	self.nivel=datadict['nivel']
-        	self.nombramiento=datadict['nombramiento']
-        	self.jerarquia=datadict['jerarquia']
-        	self.sueldo=datadict['sueldo']
-        	self.compensacion=datadict['compensacion']
-        	self.sobresueldo=datadict['sobresueldo']
-        	self.ultimomovimiento=datadict['ultimomovimiento']
-        	self.qnaproceso=datadict['qnaproceso']
-        	self.fechaultimomovimiento=datadict['fechaultimomovimiento']
-        	self.conceptospago=datadict['conceptospago']
-        	self.conceptospagados=datadict['conceptospagados']
-        	self.pensiones=datadict['pensiones']
+		if datadict != None:
+		   self.rfc=datadict['rfc']
+		   self.plaza=datadict['plaza']
+      self.unidad=datadict['unidad']
+      self.grupo=datadict['grupo']
+      self.nivel=datadict['nivel']
+      self.nombramiento=datadict['nombramiento']
+      self.jerarquia=datadict['jerarquia']
+      self.sueldo=datadict['sueldo']
+      self.compensacion=datadict['compensacion']
+      self.sobresueldo=datadict['sobresueldo']
+      self.ultimomovimiento=datadict['ultimomovimiento']
+      self.qnaproceso=datadict['qnaproceso']
+      self.fechaultimomovimiento=datadict['fechaultimomovimiento']
+      self.conceptospago=datadict['conceptospago']
+      self.conceptospagados=datadict['conceptospagados']
+      self.pensiones=datadict['pensiones']
 
 class ConceptoPagado(object):
 

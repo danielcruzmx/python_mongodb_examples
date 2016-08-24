@@ -1,3 +1,5 @@
+from config import sesion, fecfinal
+from models import Ispt
 import csv
 
 # lee un archivo .csv y devuelve un reader
@@ -31,9 +33,9 @@ def reader_to_list_dict(reader, key, value):
 
 def ispt(monto):
    res = 0.0
-   rango = Ispt.query.filter_by(\
+   rango = sesion.query(Ispt).filter_by(\
    	        tipo='ispt', \
-   	        fin=fecfinal).\
+   	        fecha_fin=fecfinal).\
    	        order_by(Ispt.id).\
    	        all()
    if rango: 
@@ -46,9 +48,9 @@ def ispt(monto):
 
 def bruto(monto):
    res =0.0
-   rango = Ispt.query.filter_by(\
+   rango = sesion.query(Ispt).filter_by(\
    	        tipo='bruto', \
-   	        fin = fecfinal).\
+   	        fecha_fin = fecfinal).\
    	        order_by(Ispt.id).\
    	        all()
    if rango:
