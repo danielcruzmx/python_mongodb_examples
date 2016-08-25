@@ -21,7 +21,10 @@ class Pago(object):
 			self.pensiones=datadict['pensiones']
 
 	def setconceptospago(self, conceptospago):
-		self.conceptospago = conceptospago		
+		self.conceptospago = conceptospago
+		
+	def setconceptospagados(self, conceptospagados):
+	  self.conceptospagados = conceptospagados
 		
 	def toDbCol(self):
 		return {
@@ -41,10 +44,7 @@ class Pago(object):
             "conceptospago": self.conceptospago,
             "conceptospagados": self.conceptospagados,
             "pensiones": self.pensiones
-      	}		
-
-	def calcula(self):
-		pass
+      	}	
 
 class ConceptoPagado(object):
 
