@@ -6,7 +6,7 @@ import csv
 def read_file_to_reader(file):
    try:
       fdat = open(file)
-      reader = csv.reader(fdat)
+      reader = csv.reader(fdat, quoting=csv.QUOTE_NONNUMERIC)
       return reader
    except IOError:
       print "Error: No se pudo abrir el archivo" + file
@@ -22,7 +22,10 @@ def reader_to_list_dict(reader, key, value):
       else:
          dic = {}
          for k in range(0,len(r)):  # Ciclo sobre columnas
-            valor = r[k].strip()
+            if type(r[k]) is not float:
+              valor = r[k].strip()
+            else:
+              valor = r[k]
             dic.update({llave[k].strip():valor})  # Agrega al diccionario
          if key == None:
             lstdata.append(dic)  # Si no hay filtro agrega renglon
