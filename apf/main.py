@@ -13,9 +13,10 @@ if __name__ == '__main__':
     for e in empleados:
       oPago=Pago(e)
       print '\n'
-      print oPago.rfc
+      rfc = oPago.rfc
+      print rfc
       rcptos=read_file_to_reader(path + "conceptos.csv")
-      lcptos=reader_to_list_dict(rcptos, None, None)
+      lcptos=reader_to_list_dict(rcptos, "rfc", rfc)
       oPago.setconceptospago(lcptos)
       oPago.setconceptospagados(calcula(oPago))
       for c,v in oPago.conceptospagados.items():
