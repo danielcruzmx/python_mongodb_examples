@@ -4,49 +4,6 @@ from models import Ispt, Reglas
 from sqlalchemy import desc
 import collections
 
-def ispt(monto):
-   res = 0.0
-   rango = sesion.query(Ispt).filter_by(\
-   	        tipo='ispt', \
-   	        fecha_fin=fecfinal).\
-   	        order_by(Ispt.id).\
-   	        all()
-   if rango: 
-      for r in rango:
-         if r.linferior <= monto and r.superior >= monto:
-            res = (monto-r.linferior)*r.excedente/100.0+r.cuota
-            return res
-   else:
-      return res
-
-def bruto(monto):
-   res =0.0
-   rango = sesion.query(Ispt).filter_by(\
-   	        tipo='bruto', \
-   	        fecha_fin = fecfinal).\
-   	        order_by(Ispt.id).\
-   	        all()
-   if rango:
-      for r in rango:
-         if r.linferior <= monto and r.superior >= monto:
-            res = (monto-r.cuota)/r.bruto
-            return res
-   else:
-      return res
-
-def ibruto(base, monto):
-   isr = ispt(base)
-   isrs = bruto(base-isr+monto)
-   return isrs-base-monto
-
-def is_number(s):
-  n=0
-  try:
-     n=float(s)
-     return n
-  except ValueError:
-     return n
-
 def calcula(pago):
   var_s = {}
   
@@ -63,15 +20,27 @@ def calcula(pago):
   	        first() 
   var_s.update(variablesBase(pago))
 
-  param = {
-           'porcPension':0.0,
-           'porcSegSep':0.10,
-           'quinquenio':100.0,
-           'salMin':73.04,
-           'tieneSobresueldo':0
+  '''param = {
+           'C62':0.0,
+           'C82':0.10,
+           'PA1':100.0,
+           'C37':0
           } 
+  '''        
 
-  var_s.update(variablesForm(reglas, param, pago))
+  variables = {}
+
+  for c in pago.conceptospago:
+    #print c['tipocpto'], c['cpto'], c['monto'], c['porcentaje']
+    clave = c['tipocpto'] + c['cpto']
+    if c['monto'] != 0:
+      valor = c['monto']
+    else:  
+      valor = c['porcentaje'] / 100.00
+    print clave, valor   
+    variables.update({clave: valor})
+
+  var_s.update(cptosvariables(reglas, variables, pago))
 
   #  CODIGO QUE EVALUA LAS FORMULAS DE LA BASE DE DATOS
   for o in range(1,maximo.orden+1):
@@ -93,33 +62,26 @@ def calcula(pago):
   n = 1
   for r in reg:
       v = var_s[r.var]
-      resul.update({ n: {'Descripcion': r.desc, 'Valor':v}})
+      resul.update({ n: {'Descripcion': r.desc, 'Valor':v, 'Concepto': r.tipo + r.concepto}})
       n = n + 1
   return collections.OrderedDict(sorted(resul.items()))
 
-def existe(clave, param):
-    ret = False
-    for p in param:
-       if p == clave:
-          ret = True
-          break
-    return ret
-
-def variablesForm(reglas, param, nivel):
+def cptosvariables(reglas, param, nivel):
     variables = {}
     for r in reglas:
        if r.orden == 0:
-          clave = r.var
+          clavevariable = r.var
+          claveconcepto = r.tipo + r.concepto
           if r.variable == 'S':
-             if existe(clave,param):
-                valor = param[clave]
+             if existe(claveconcepto,param):
+                valor = param[claveconcepto]
              else:
                 valor = r.val
           else:
              valor = r.val
           if not validaNivel(nivel, r):
              valor = 0
-          variables.update({clave:valor})
+          variables.update({clavevariable:valor})
     return variables
 
 def variablesBase(nivel):
@@ -156,3 +118,54 @@ def validaNivel(nivel, regla):
     else:
        ret = False
     return ret
+
+def existe(clave, param):
+    ret = False
+    for p in param:
+       if p == clave:
+          ret = True
+          break
+    return ret
+
+def ispt(monto):
+   res = 0.0
+   rango = sesion.query(Ispt).filter_by(\
+            tipo='ispt', \
+            fecha_fin=fecfinal).\
+            order_by(Ispt.id).\
+            all()
+   if rango: 
+      for r in rango:
+         if r.linferior <= monto and r.superior >= monto:
+            res = (monto-r.linferior)*r.excedente/100.0+r.cuota
+            return res
+   else:
+      return res
+
+def bruto(monto):
+   res =0.0
+   rango = sesion.query(Ispt).filter_by(\
+            tipo='bruto', \
+            fecha_fin = fecfinal).\
+            order_by(Ispt.id).\
+            all()
+   if rango:
+      for r in rango:
+         if r.linferior <= monto and r.superior >= monto:
+            res = (monto-r.cuota)/r.bruto
+            return res
+   else:
+      return res
+
+def ibruto(base, monto):
+   isr = ispt(base)
+   isrs = bruto(base-isr+monto)
+   return isrs-base-monto
+
+def is_number(s):
+  n=0
+  try:
+     n=float(s)
+     return n
+  except ValueError:
+     return n

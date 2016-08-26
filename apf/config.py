@@ -7,7 +7,7 @@ pathdbpc='sqlite:///D:\\SITES_OPEN\\CODIGO_GITHUB\\temp\\exemplospython\\apf\\no
 pathmo='/storage/emulated/0/com.hipipal.qpyplus/projects/apf/'
 
 pathdb = pathdbpc
-path = pathpc 
+path = pathpc
 
 engine = create_engine(pathdb)
 Session = sessionmaker(bind=engine)
