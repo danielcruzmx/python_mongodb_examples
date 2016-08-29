@@ -1,7 +1,7 @@
-from pago import Pago, Pension, ConceptoPago, ConceptoPagado
+from pago import Pago
 from utils import read_file_to_reader, reader_to_list_dict
 from config import path
-from calc import ispt, calcula
+from calc import calcula
 
 if __name__ == '__main__':
 
@@ -23,5 +23,3 @@ if __name__ == '__main__':
         if v['Valor'] > 0 :
           print '%s %s -> %s' % (v['Concepto'],v['Descripcion'],v['Valor'])
   
-  
-
