@@ -24,7 +24,7 @@ def reader_to_list_dict(reader, key, value):
               valor = r[k].strip()
             else:
               valor = r[k]
-            dic.update({llave[k].strip():valor})  # Agrega al diccionario
+            dic.update({llave[k].lower().strip():valor})  # Agrega al diccionario
          if key == None:
             lstdata.append(dic)  # Si no hay filtro agrega renglon
          else:    

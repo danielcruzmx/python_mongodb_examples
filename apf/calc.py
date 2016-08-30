@@ -8,8 +8,7 @@ def calcula(pago):
   var_s = {}
   
   opcion = 'nomina'
-  #niv = pago
-     
+
   reglas = sesion.query(Reglas).filter_by(\
   	        calculo=opcion).\
            order_by(Reglas.orden).\
@@ -20,24 +19,18 @@ def calcula(pago):
   	        first() 
   var_s.update(variablesBase(pago))
 
-  '''param = {
-           'C62':0.0,
-           'C82':0.10,
-           'PA1':100.0,
-           'C37':0
-          } 
-  '''        
-
   variables = {}
 
   for c in pago.conceptospago:
-    #print c['tipocpto'], c['cpto'], c['monto'], c['porcentaje']
     clave = c['tipocpto'] + c['cpto']
-    if c['monto'] != 0:
-      valor = c['monto']
+    if is_number(c['porcentaje']):
+        if c['porcentaje'] > 0:
+            valor = c['porcentaje'] / 100.00
+        else:
+            valor = 0
     else:  
-      valor = c['porcentaje'] / 100.00
-    print clave, valor   
+      valor = c['monto']
+    #print clave, valor
     variables.update({clave: valor})
 
   var_s.update(cptosvariables(reglas, variables, pago))
@@ -47,7 +40,7 @@ def calcula(pago):
       for r in reglas:
          if r.orden == o:
             clave = r.var
-            ex = r.formula.format(**var_s) 
+            ex = r.formula.format(**var_s)
             valor = eval(ex)
             if not validaNivel(pago, r):
                valor = 0
