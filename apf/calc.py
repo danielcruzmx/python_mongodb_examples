@@ -1,8 +1,47 @@
-from datetime import datetime
 from config import sesion, fecfinal
 from models import Ispt, Reglas
 from sqlalchemy import desc
 import collections
+
+CONSTANTES_CALC = {
+    'SAL_MIN' :    73.04,
+    'AYU_DESP':    565.0,
+    'PREV_SOC':    465.0,
+    'AYU_SERV':    435.0,
+    'APO_DES_CAP': 1400.0,
+    'AYU_TRANS':   400,
+    'ISSSTE_TOPE': 21912.0,
+    'QUIN_A1':     100.0,
+    'QUIN_A2':     125.0,
+    'QUIN_A3':     175.0,
+    'QUIN_A4':     200.0,
+    'QUIN_A5':     225.0,
+    'DIAS_PRI_EXCE': 7.5,
+    'ISSSTE_PATRON': 0.0997,
+    'PORC_SIND':   0.015,
+    'ISSSTE_42A':  0.0275,
+    'ISSSTE_42B':  0.00625,
+    'ISSSTE_199':  0.005,
+    'ISSSTE_102':  0.06125,
+    'ISSSTE_140':  0.00625,
+    'PRI_SEG_COL': 14.55,
+    'FONAC_AP_TRAB': 205.0
+}
+
+REGLAS_CALC = {
+    'ID':0,
+    'TIPO': 0,
+    'CONCEPTO':0,
+    'VARIABLE':0,
+    'ORDEN':0,
+    'VALOR':0,
+    'DESCRIPCION':0,
+    'FORMULA': '0 if {segSep} <= 0 else ibruto({gravMando}, {segSep})',
+    'JERARQUIAS':0,
+    'NIVELES':0,
+    'NOMBRAMIENTOS':0,
+    'ES_VARIABLE':0
+}
 
 def calcula(pago):
   var_s = {}
