@@ -1,47 +1,115 @@
 from config import sesion, fecfinal
 from models import Ispt, Reglas
 from sqlalchemy import desc
+from constantes import CONSTANTES_CALC
 import collections
 
-CONSTANTES_CALC = {
-    'SAL_MIN' :    73.04,
-    'AYU_DESP':    565.0,
-    'PREV_SOC':    465.0,
-    'AYU_SERV':    435.0,
-    'APO_DES_CAP': 1400.0,
-    'AYU_TRANS':   400,
-    'ISSSTE_TOPE': 21912.0,
-    'QUIN_A1':     100.0,
-    'QUIN_A2':     125.0,
-    'QUIN_A3':     175.0,
-    'QUIN_A4':     200.0,
-    'QUIN_A5':     225.0,
-    'DIAS_PRI_EXCE': 7.5,
-    'ISSSTE_PATRON': 0.0997,
-    'PORC_SIND':   0.015,
-    'ISSSTE_42A':  0.0275,
-    'ISSSTE_42B':  0.00625,
-    'ISSSTE_199':  0.005,
-    'ISSSTE_102':  0.06125,
-    'ISSSTE_140':  0.00625,
-    'PRI_SEG_COL': 14.55,
-    'FONAC_AP_TRAB': 205.0
-}
+def variablesiniciales(nivel):
+    variables = {}
+    clave = 'sueldo'
+    valor = nivel.sueldo
+    variables.update({clave:valor})
+    clave = 'compensacion'
+    valor = nivel.compensacion
+    variables.update({clave:valor})
+    return variables
 
-REGLAS_CALC = {
-    'ID':0,
-    'TIPO': 0,
-    'CONCEPTO':0,
-    'VARIABLE':0,
-    'ORDEN':0,
-    'VALOR':0,
-    'DESCRIPCION':0,
-    'FORMULA': '0 if {segSep} <= 0 else ibruto({gravMando}, {segSep})',
-    'JERARQUIAS':0,
-    'NIVELES':0,
-    'NOMBRAMIENTOS':0,
-    'ES_VARIABLE':0
-}
+def validaconcepto(nivel, regla):
+    ret =  False
+
+    if regla['jerarquias'] == 'todos':
+       ret = True
+    elif nivel.jerarquia.upper() in regla['jerarquias'].upper():
+       ret = True
+    else:
+       ret = False
+
+    if regla['nombramientos'] == 'todos':
+       ret = True
+    elif nivel.nombramiento.upper() in regla['nombramientos'].upper():
+       ret = True
+    else:
+       ret = False
+
+    if regla['niveles'] == 'todos':
+       ret = True
+    elif nivel.nivel[:1] in regla['niveles']:
+       ret = True
+    else:
+       ret = False
+
+    return ret
+
+def cptosvariablesreglas(reglas, param, nivel):
+    variables = {}
+    for r in reglas:
+        # ES REGLA DE CONCEPTO VARIABLE
+        clavevariable = r['variable']
+        claveconcepto = r['tipo'] + r['concepto']
+        if r['es_variable'] == 'S':
+            # EXISTE EL CONCEPTO EN VARIABLES
+            if existe(claveconcepto,param):
+                # DAME SU VALOR
+                valor = param[claveconcepto]
+            else:
+                valor = r['valor']
+            if not validaconcepto(nivel, r):
+                valor = 0
+            variables.update({clavevariable:valor})
+    return variables
+
+def calculaB(pago, lstreglas):
+
+    # METE LAS CONSTANTES
+    var_s = {}
+    var_s.update(CONSTANTES_CALC)
+
+    # METE LAS VARIABLES BASE COMO SUELDO COMPENSACION E INCENTIVO
+    var_s.update(variablesiniciales(pago))
+
+    # TOMA LOS CONCEPTOS VARIABLES Y SU VALOR
+    variables = {}
+    for c in pago.conceptospago:
+        clave = c['tipocpto'] + c['cpto']
+        if is_number(c['porcentaje']):
+            if c['porcentaje'] > 0:
+                valor = c['porcentaje'] / 100.00
+            else:
+                valor = 0
+        else:
+            valor = c['monto']
+        variables.update({clave: valor})
+
+    # VALIDA Y METE LOS CONCEPTOS VARIABLES SEGUN REGLAS
+    var_s.update(cptosvariablesreglas(lstreglas, variables, pago))
+
+    print variables
+    #print var_s
+
+    # CODIGO QUE EVALUA LAS FORMULAS DE LA BASE DE DATOS
+    for o in range(1,2):
+        for r in lstreglas:
+            print var_s
+            if r['orden'] == o:
+                clave = r['variable']
+                ex = r['formula'].format(**var_s)
+                valor = eval(ex)
+                if not validaconcepto(pago, r):
+                    valor = 0
+                var_s.update({clave:valor})
+
+    #print var_s
+
+    # GUARDA RESULTADOS EN ARREGLO DE PAGADOS
+    resul = {}
+    n = 1
+    for r in lstreglas:
+        v = var_s[r['variable']]
+        resul.update({ n: {'Descripcion': r['descripcion'], 'Valor':v, 'Concepto': r['tipo'] + r['concepto']}})
+        n = n + 1
+    return collections.OrderedDict(sorted(resul.items()))
+
+#####################################################
 
 def calcula(pago):
   var_s = {}
@@ -128,7 +196,7 @@ def variablesBase(nivel):
     valor = nivel.sobresueldo
     variables.update({clave:valor})
     return variables
-          
+
 def validaNivel(nivel, regla):
     ret =  False
     if regla.jerarquia == 'todos':
@@ -201,3 +269,5 @@ def is_number(s):
      return n
   except ValueError:
      return n
+
+
