@@ -6,9 +6,13 @@
 6,"P","46","servicios",0,0,"Ayuda porservicios","{AYU_SERV}","operativo","1|2|3|4|5|6|7|8|9|10|11","base|confianza","todos","fijo"
 7,"P","77","desarrollo",0,0,"Compensacion por desarrollo y capacitacion","{APO_DES_CAP}","operativo","1|2|3|4|5|6|7|8|9|10|11","base|confianza","todos","fijo"
 8,"P","95","transporte",0,0,"Ayuda de transporte","{AYU_TRANS}","operativo","1|2|3|4|5|6|7|8|9|10|11","base|confianza","todos","fijo"
+9,"D",
 9,"P","A1","quinA1",0,0,"Prima quinquenal 5 a 9 anios","{QUIN_A1}","todos","todos","todos","todos","variable"
 10,"P","A2","quinA2",0,0,"Prima quinquenal 10 a 14 anios","{QUIN_A2}","todos","todos","todos","todos","variable"
 11,"P","A3","quinA3",0,0,"Prima quinquenal 15 a 19 anios","{QUIN_A3}","todos","todos","todos","todos","variable"
 12,"P","A4","quinA4",0,0,"Prima quinquenal 20 a 24 anios","{QUIN_A4}","todos","todos","todos","todos","variable"
 13,"P","A5","quinA5",0,0,"Prima quinquenal 25 anios o mas","{QUIN_A5}","todos","todos","todos","todos","variable"
 14,"D","82","segSep",0,0,"Seguro de separacion ","({sueldo}+{compensacion}) * {valor}","todos","todos","todos","todos","variable"
+15,"C","QA","quinquenio",0,0,"Prima quinquenal","{quinA1}+{quinA3}+{quinA3}+{quinA4}+{quinA5}","todos","todos","todos","todos","calculado"
+16,"C","SB","sdoBase",0,0,"Sueldo base del Issste","{sueldo} + {desarrollo} + {quinquenio}","todos","todos","todos","todos","calculado"
+17,"C","SI","sdoIssste",0,0,"Sueldo base cuota Issste","{sdoBase} If {sdoBase} < {ISSSTE_TOPE} else {ISSSTE_TOPE}","todos","todos","todos","todos","calculado"
