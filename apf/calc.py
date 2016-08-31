@@ -4,15 +4,13 @@ from sqlalchemy import desc
 from constantes import CONSTANTES_CALC
 import collections
 
-def variablesiniciales(nivel):
-    variables = {}
-    clave = 'sueldo'
-    valor = nivel.sueldo
-    variables.update({clave:valor})
-    clave = 'compensacion'
-    valor = nivel.compensacion
-    variables.update({clave:valor})
-    return variables
+def existe(clave, param):
+    ret = False
+    for p in param:
+       if p == clave:
+          ret = True
+          break
+    return ret
 
 def validaconcepto(nivel, regla):
     ret =  False
@@ -40,34 +38,36 @@ def validaconcepto(nivel, regla):
 
     return ret
 
-def cptosvariablesreglas(reglas, param, nivel):
-    variables = {}
-    for r in reglas:
-        # ES REGLA DE CONCEPTO VARIABLE
-        clavevariable = r['variable']
-        claveconcepto = r['tipo'] + r['concepto']
-        if r['es_variable'] == 'S':
-            # EXISTE EL CONCEPTO EN VARIABLES
-            if existe(claveconcepto,param):
-                # DAME SU VALOR
-                valor = param[claveconcepto]
-            else:
-                valor = r['valor']
-            if not validaconcepto(nivel, r):
-                valor = 0
-            variables.update({clavevariable:valor})
-    return variables
+def evalua(expresion):
+    try:
+        valor = eval(expresion)
+        return valor
+    except (NameError, SyntaxError):
+        print "Error: Al evaluar la expresion " + expresion
+        return 0
 
-def calculaB(pago, lstreglas):
+def calc(pago, lstreglas):
 
-    # METE LAS CONSTANTES
+    # AGREGA CONSTANTES
     var_s = {}
     var_s.update(CONSTANTES_CALC)
 
-    # METE LAS VARIABLES BASE COMO SUELDO COMPENSACION E INCENTIVO
-    var_s.update(variablesiniciales(pago))
+    # AGREGA CONCEPTOS INICIALES
+    var_s.update({'sueldo': pago.sueldo})
+    var_s.update({'compensacion': pago.compensacion})
 
-    # TOMA LOS CONCEPTOS VARIABLES Y SU VALOR
+    # EVALUA Y AGREGA CONCEPTOS FIJOS
+    for r in lstreglas:
+        # print r
+        if r['tipo_calc'] == 'fijo' and r['orden'] == 0 :
+            clave = r['variable']
+            ex = r['formula'].format(**var_s)
+            valor = evalua(ex)
+            if not validaconcepto(pago, r):
+                valor = 0
+            var_s.update({clave:valor})
+
+    # RECUPERA LOS CONCEPTOS VARIABLES Y SU VALOR
     variables = {}
     for c in pago.conceptospago:
         clave = c['tipocpto'] + c['cpto']
@@ -80,33 +80,33 @@ def calculaB(pago, lstreglas):
             valor = c['monto']
         variables.update({clave: valor})
 
-    # VALIDA Y METE LOS CONCEPTOS VARIABLES SEGUN REGLAS
-    var_s.update(cptosvariablesreglas(lstreglas, variables, pago))
-
-    print variables
-    #print var_s
-
-    # CODIGO QUE EVALUA LAS FORMULAS DE LA BASE DE DATOS
-    for o in range(1,2):
-        for r in lstreglas:
-            print var_s
-            if r['orden'] == o:
-                clave = r['variable']
+    # EVALUA Y AGREGA CONCEPTOS VARIABLES
+    for r in lstreglas:
+        # print r
+        if r['tipo_calc'] == 'variable' and r['orden'] == 0 :
+            clavevariable = r['variable']
+            claveconcepto = r['tipo'] + r['concepto']
+            if existe(claveconcepto,variables):
+                # EVALUA CONCEPTO
+                var_s.update({'valor': variables[claveconcepto]})
                 ex = r['formula'].format(**var_s)
-                valor = eval(ex)
-                if not validaconcepto(pago, r):
-                    valor = 0
-                var_s.update({clave:valor})
-
-    #print var_s
+                valor = evalua(ex)
+            else:
+                valor = 0
+            if not validaconcepto(pago, r):
+                valor = 0
+            var_s.update({clavevariable:valor})
 
     # GUARDA RESULTADOS EN ARREGLO DE PAGADOS
     resul = {}
     n = 1
     for r in lstreglas:
-        v = var_s[r['variable']]
-        resul.update({ n: {'Descripcion': r['descripcion'], 'Valor':v, 'Concepto': r['tipo'] + r['concepto']}})
-        n = n + 1
+        try:
+            v = var_s[r['variable']]
+            resul.update({ n: {'Descripcion': r['descripcion'], 'Valor':v, 'Concepto': r['tipo'] + r['concepto']}})
+            n = n + 1
+        except:
+            pass
     return collections.OrderedDict(sorted(resul.items()))
 
 #####################################################
@@ -217,14 +217,6 @@ def validaNivel(nivel, regla):
        ret = True
     else:
        ret = False
-    return ret
-
-def existe(clave, param):
-    ret = False
-    for p in param:
-       if p == clave:
-          ret = True
-          break
     return ret
 
 def ispt(monto):

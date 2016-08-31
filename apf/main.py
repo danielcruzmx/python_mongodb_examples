@@ -1,7 +1,7 @@
 from pago import Pago
 from utils import read_file_to_reader, reader_to_list_dict
 from config import path
-from calc import calculaB
+from calc import calc
 
 if __name__ == '__main__':
 
@@ -28,7 +28,7 @@ if __name__ == '__main__':
           rcptos=read_file_to_reader(path + "conceptos.txt")
           lcptos=reader_to_list_dict(rcptos, "rfc", rfc)
           oPago.setconceptospago(lcptos)
-          oPago.setconceptospagados(calculaB(oPago, lstreglas))
+          oPago.setconceptospagados(calc(oPago, lstreglas))
           for c,v in oPago.conceptospagados.items():
             if v['Valor'] > 0 :
                 print '%s %s -> %s' % (v['Concepto'],v['Descripcion'],v['Valor'])
