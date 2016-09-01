@@ -29,9 +29,16 @@ if __name__ == '__main__':
           lcptos=reader_to_list_dict(rcptos, "rfc", rfc)
           oPago.setconceptospago(lcptos)
           oPago.setconceptospagados(calc(oPago, lstreglas))
+          percepciones = 0
+          deducciones = 0
           for c,v in oPago.conceptospagados.items():
             if v['Valor'] > 0 :
-                print '%s %s -> %s' % (v['Concepto'],v['Descripcion'],v['Valor']/2.0)
-
+                print '%s %s -> %s' % (v['Concepto'],v['Descripcion'],round(v['Valor']/2.0,2))
+                if v['Concepto'][:1] == 'P':
+                    percepciones = percepciones + round(v['Valor']/2.0,2)
+                if v['Concepto'][:1] == 'D':
+                    deducciones = deducciones + round(v['Valor']/2.0,2)
+          liquido = percepciones - deducciones
+          print "liquido -> %s" % liquido
 
 

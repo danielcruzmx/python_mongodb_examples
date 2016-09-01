@@ -115,7 +115,7 @@ def calc(pago, lstreglas):
     n = 1
     for r in lstreglas:
         try:
-            v = var_s[r['variable']]
+            v = round(var_s[r['variable']],2)
             resul.update({ n: {'Descripcion': r['descripcion'], 'Valor':v, 'Concepto': r['codigosalida']}})
             n = n + 1
         except:
