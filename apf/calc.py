@@ -55,10 +55,12 @@ def calc(pago, lstreglas):
     # AGREGA CONCEPTOS INICIALES
     var_s.update({'sueldo': pago.sueldo})
     var_s.update({'compensacion': pago.compensacion})
+    var_s.update({'incentivo': pago.sobresueldo})
+    # falta incentivo
 
     # EVALUA Y AGREGA CONCEPTOS FIJOS
     for r in lstreglas:
-        # print r
+        #print r
         if r['tipo_calc'] == 'fijo' and r['orden'] == 0 :
             clave = r['variable']
             ex = r['formula'].format(**var_s)
@@ -97,13 +99,24 @@ def calc(pago, lstreglas):
                 valor = 0
             var_s.update({clavevariable:valor})
 
+    # EVALUA Y AGREGA CONCEPTOS DE CALCULO
+    for r in lstreglas:
+        # print r
+        if r['tipo_calc'] == 'calculo' and r['orden'] == 0 :
+            clavevariable = r['variable']
+            ex = r['formula'].format(**var_s)
+            valor = evalua(ex)
+            if not validaconcepto(pago, r):
+                valor = 0
+            var_s.update({clavevariable:valor})
+
     # GUARDA RESULTADOS EN ARREGLO DE PAGADOS
     resul = {}
     n = 1
     for r in lstreglas:
         try:
             v = var_s[r['variable']]
-            resul.update({ n: {'Descripcion': r['descripcion'], 'Valor':v, 'Concepto': r['tipo'] + r['concepto']}})
+            resul.update({ n: {'Descripcion': r['descripcion'], 'Valor':v, 'Concepto': r['codigosalida']}})
             n = n + 1
         except:
             pass

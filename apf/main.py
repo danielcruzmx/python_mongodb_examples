@@ -31,7 +31,7 @@ if __name__ == '__main__':
           oPago.setconceptospagados(calc(oPago, lstreglas))
           for c,v in oPago.conceptospagados.items():
             if v['Valor'] > 0 :
-                print '%s %s -> %s' % (v['Concepto'],v['Descripcion'],v['Valor'])
+                print '%s %s -> %s' % (v['Concepto'],v['Descripcion'],v['Valor']/2.0)
 
 
 

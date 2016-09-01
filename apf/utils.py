@@ -26,8 +26,11 @@ def reader_to_list_dict(reader, key, value):
               valor = r[k].strip()
             else:
               valor = r[k]
-            #print llave[k].lower().strip() cuando los titulos no concuerdan con los datos
-            dic.update({llave[k].lower().strip():valor})  # Agrega al diccionario
+            try:
+                dic.update({llave[k].lower().strip():valor})  # Agrega al diccionario
+            except:
+                print "Error: En el registro de la regla "
+                print r
          if key == None:
             lstdata.append(dic)  # Si no hay filtro agrega renglon
          else:    
