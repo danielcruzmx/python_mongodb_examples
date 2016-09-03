@@ -2,6 +2,7 @@ from pago import Pago
 from utils import read_file_to_reader, reader_to_list_dict
 from config import path
 from calc import calc
+import json
 
 if __name__ == '__main__':
 
@@ -41,4 +42,20 @@ if __name__ == '__main__':
           liquido = percepciones - deducciones
           print "liquido -> %s" % liquido
 
+          objson =  oPago.toDbCol()
+
+          json_data = json.dumps(objson)
+
+          #print objson
+          #print '\n'
+          #print json_data
+
+          retdict = json.loads(json_data)
+
+          #print retdict
+
+          #print retdict['conceptospagados']
+
+          for c,v in retdict['conceptospagados'].items():
+              print '%s %s -> %s' % (v['Concepto'],v['Descripcion'],round(v['Valor']/2.0,2))
 
