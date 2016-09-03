@@ -10,6 +10,8 @@ def read_file_to_reader(file):
       print "Error: No se pudo abrir el archivo" + file
       return None   
 
+# no olvidar meter una exepcion para cuando e archivo esta mal formado
+
 # devuelve una lista de diccionarios apartir de un reader
 def reader_to_list_dict(reader, key, value):
    llave = []
@@ -24,7 +26,11 @@ def reader_to_list_dict(reader, key, value):
               valor = r[k].strip()
             else:
               valor = r[k]
-            dic.update({llave[k].strip():valor})  # Agrega al diccionario
+            try:
+                dic.update({llave[k].lower().strip():valor})  # Agrega al diccionario
+            except:
+                print "Error: En el registro de la regla "
+                print r
          if key == None:
             lstdata.append(dic)  # Si no hay filtro agrega renglon
          else:    

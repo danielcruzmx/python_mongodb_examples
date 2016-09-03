@@ -1,0 +1,33 @@
+46,nomina,C,62,porcPension,0,0.0,Porcentaje de pension,{porcPension},todos,todos,todos,S
+47,nomina,C,PS,porcSegSep,0,0.0,Porcentaje de seguro de separacion,{porcSegSep},mando medio,mando superior,G,H,I,J,K,L,M,N,O,P,confianza,S
+48,nomina,P,QA,quinquenio,0,0.0,Quinquenio,{quinquenio},todos,todos,todos,S
+49,nomina,C,SM,salMin,0,73.04,Salario minimo,{salMin},todos,todos,todos,N
+50,nomina,C,SB,sdoBruto,1,0.0,Sueldo bruto,{sueldo} + {compensacion},todos,todos,todos,N
+51,nomina,C,SD,sdoDiario,1,0.0,Sueldo diario,({sueldo} + {compensacion})/30.0,todos,todos,todos,N
+52,nomina,C ,PR,prestaciones,1,0.0,Suma de prestaciones,{despensa}+{prevision}+{servicios}+{desarrollo}+{transporte},todos,todos,todos,N
+53,nomina,D,81,segSepG,2,0.0,Seguro de separacion,({sueldo} + {compensacion})*{porcSegSep},mando medio,mando superior,G,H,I,J,K,L,M,N,O,P,confianza,N
+54,nomina,D,82,segSep,2,0.0,Seguro de separacion trabajador,({sueldo} + {compensacion})*{porcSegSep},mando medio,mando superior,G,H,I,J,K,L,M,N,O,P,confianza,N
+55,nomina,C,GM,gravMando,2,0.0,Gravable para calculo de impuesto de seguro,{sueldo}+{compensacion}+{despensa},mando medio,mando superior,G,H,I,J,K,L,M,N,O,P,confianza,N
+56,nomina,D,IS,impSegSep,3,0.0,Impuesto de seguro,0 if {segSep} <= 0 else ibruto({gravMando}, {segSep}),mando medio,mando superior,G,H,I,J,K,L,M,N,O,P,confianza,N
+57,nomina,P,76,segSepBruto,4,0.0,Seguro de separacion bruto,{segSep}+{impSegSep},mando medio,mando superior,G,H,I,J,K,L,M,N,O,P,confianza,N
+59,nomina,C,TS,tieneSobreSueldo,0,0.0,Se considera el sobresueldo,{tieneSobreSueldo},operativo,1,2,3,4,5,6,7,8,9,10,11,base,confianza,S
+
+
+    'AYU_TRANS':   400,
+    'ISSSTE_TOPE': 21912.0,
+    'QUIN_A1':     100.0,
+    'QUIN_A2':     125.0,
+    'QUIN_A3':     175.0,
+    'QUIN_A4':     200.0,
+    'QUIN_A5':     225.0,
+    'DIAS_PRI_EXCE': 7.5,
+    'ISSSTE_PATRON': 0.0997,
+    'PORC_SIND':   0.015,
+    'ISSSTE_42A':  0.0275,
+    'ISSSTE_42B':  0.00625,
+    'ISSSTE_199':  0.005,
+    'ISSSTE_102':  0.06125,
+    'ISSSTE_140':  0.00625,
+    'PRI_SEG_COL': 14.55,
+    'FONAC_AP_TRAB': 205.0
+}
