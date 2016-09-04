@@ -24,7 +24,24 @@ objetopago = { "rfc": "CUCD6308017Y1",
               "conceptospagados": "",
              }
 
-resp = requests.post('http://127.0.0.1:8000/calculo/', json=objetopago)
+objetopag = { "rfc": "CUCD6308017Y1",
+               "plaza": 902,
+               "conceptospago": "..",
+              "nivel": "N33",
+              "jerarquia": "mando medio",
+              "nombramiento": "confianza",
+              "grupo": "presupuestal",
+              "ultimomovimiento": "520",
+              "unidad": "711",
+              "sobresueldo": 0.0,
+              "compensacion": 40970.45,
+              "sueldo": 8357.21,
+              "pensiones": "..",
+              "conceptospagados": "..",
+             }
+
+
+resp = requests.post('http://127.0.0.1:8000/calculo/', json=objetopag)
 
 if resp.status_code != 201:
     print 'POST /calculo/ {}'.format(resp.status_code)
